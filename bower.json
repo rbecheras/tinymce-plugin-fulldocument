@@ -1,0 +1,21 @@
+{
+  "name": "tinymce-plugin-fulldocument",
+  "version": "0.1.0",
+  "authors": [
+    "Rémi Becheras <rbecheras@sirap.fr>"
+  ],
+  "description": "An alternative to the official tinymce \"fullpage\" plugin",
+  "main": "plugin.js",
+  "keywords": [
+    "tinymce",
+    "plugin"
+  ],
+  "license": "LGPLv2.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
