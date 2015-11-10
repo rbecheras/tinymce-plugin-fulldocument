@@ -1,6 +1,6 @@
 {
   "name": "tinymce-plugin-fulldocument",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "An alternative to the official tinymce \"fullpage\" plugin",
   "main": "plugin.js",
   "dependencies": {
