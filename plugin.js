@@ -480,7 +480,7 @@ tinymce.PluginManager.add('fulldocument', function(editor) {
 	});
 
 
-	if ((value = editor.getParam('fulldocument_enable_menu_item')) && value || editor.getParam('fulldocument_enable_menu_item') === undefined) {
+	if (editor.getParam('fulldocument_enable_menu_item',true)) {
 		editor.addMenuItem('fulldocument', {
 			text: 'Document properties',
 			cmd: 'mceFullDocumentProperties',
