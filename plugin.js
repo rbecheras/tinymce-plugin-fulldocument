@@ -10,7 +10,7 @@
 
 /*global tinymce:true */
 
-tinymce.PluginManager.add('fullpage', function(editor) {
+tinymce.PluginManager.add('fulldocument', function(editor) {
 	var each = tinymce.each, Node = tinymce.html.Node;
 	var head, foot;
 
@@ -45,8 +45,8 @@ tinymce.PluginManager.add('fullpage', function(editor) {
 		}
 
 		// Default some values
-		data.fontface = editor.getParam("fullpage_default_fontface", "");
-		data.fontsize = editor.getParam("fullpage_default_fontsize", "");
+		data.fontface = editor.getParam("fulldocument_default_fontface", "");
+		data.fontsize = editor.getParam("fulldocument_default_fontsize", "");
 
 		// Parse XML PI
 		elm = headerFragment.firstChild;
@@ -338,7 +338,7 @@ tinymce.PluginManager.add('fullpage', function(editor) {
 			return;
 		}
 
-		if (evt.source_view && editor.getParam('fullpage_hide_in_source_view')) {
+		if (evt.source_view && editor.getParam('fulldocument_hide_in_source_view')) {
 			return;
 		}
 
@@ -386,17 +386,17 @@ tinymce.PluginManager.add('fullpage', function(editor) {
 			});
 		}
 
-		dom.remove('fullpage_styles');
+		dom.remove('fulldocument_styles');
 
 		var headElm = editor.getDoc().getElementsByTagName('head')[0];
 
 		if (styles) {
 			dom.add(headElm, 'style', {
-				id: 'fullpage_styles'
+				id: 'fulldocument_styles'
 			}, styles);
 
 			// Needed for IE 6/7
-			elm = dom.get('fullpage_styles');
+			elm = dom.get('fulldocument_styles');
 			if (elm.styleSheet) {
 				elm.styleSheet.cssText = styles;
 			}
@@ -404,7 +404,7 @@ tinymce.PluginManager.add('fullpage', function(editor) {
 
 		var currentStyleSheetsMap = {};
 		tinymce.each(headElm.getElementsByTagName('link'), function(stylesheet) {
-			if (stylesheet.rel == 'stylesheet' && stylesheet.getAttribute('data-mce-fullpage')) {
+			if (stylesheet.rel == 'stylesheet' && stylesheet.getAttribute('data-mce-fulldocument')) {
 				currentStyleSheetsMap[stylesheet.href] = stylesheet;
 			}
 		});
@@ -418,7 +418,7 @@ tinymce.PluginManager.add('fullpage', function(editor) {
 					rel: 'stylesheet',
 					text: 'text/css',
 					href: href,
-					'data-mce-fullpage': '1'
+					'data-mce-fulldocument': '1'
 				});
 			}
 
@@ -434,30 +434,30 @@ tinymce.PluginManager.add('fullpage', function(editor) {
 	function getDefaultHeader() {
 		var header = '', value, styles = '';
 
-		if (editor.getParam('fullpage_default_xml_pi')) {
-			header += '<?xml version="1.0" encoding="' + editor.getParam('fullpage_default_encoding', 'ISO-8859-1') + '" ?>\n';
+		if (editor.getParam('fulldocument_default_xml_pi')) {
+			header += '<?xml version="1.0" encoding="' + editor.getParam('fulldocument_default_encoding', 'ISO-8859-1') + '" ?>\n';
 		}
 
-		header += editor.getParam('fullpage_default_doctype', '<!DOCTYPE html>');
+		header += editor.getParam('fulldocument_default_doctype', '<!DOCTYPE html>');
 		header += '\n<html>\n<head>\n';
 
-		if ((value = editor.getParam('fullpage_default_title'))) {
+		if ((value = editor.getParam('fulldocument_default_title'))) {
 			header += '<title>' + value + '</title>\n';
 		}
 
-		if ((value = editor.getParam('fullpage_default_encoding'))) {
+		if ((value = editor.getParam('fulldocument_default_encoding'))) {
 			header += '<meta http-equiv="Content-Type" content="text/html; charset=' + value + '" />\n';
 		}
 
-		if ((value = editor.getParam('fullpage_default_font_family'))) {
+		if ((value = editor.getParam('fulldocument_default_font_family'))) {
 			styles += 'font-family: ' + value + ';';
 		}
 
-		if ((value = editor.getParam('fullpage_default_font_size'))) {
+		if ((value = editor.getParam('fulldocument_default_font_size'))) {
 			styles += 'font-size: ' + value + ';';
 		}
 
-		if ((value = editor.getParam('fullpage_default_text_color'))) {
+		if ((value = editor.getParam('fulldocument_default_text_color'))) {
 			styles += 'color: ' + value + ';';
 		}
 
@@ -467,21 +467,26 @@ tinymce.PluginManager.add('fullpage', function(editor) {
 	}
 
 	function getContent(evt) {
-		if (!evt.selection && (!evt.source_view || !editor.getParam('fullpage_hide_in_source_view'))) {
+		if (!evt.selection && (!evt.source_view || !editor.getParam('fulldocument_hide_in_source_view'))) {
 			evt.content = tinymce.trim(head) + '\n' + tinymce.trim(evt.content) + '\n' + tinymce.trim(foot);
 		}
 	}
 
-	editor.addCommand('mceFullPageProperties', showDialog);
+	editor.addCommand('mceFullDocumentProperties', showDialog);
 
-	editor.addButton('fullpage', {
+	editor.addButton('fulldocument', {
 		title: 'Document properties',
-		cmd: 'mceFullPageProperties'
+		cmd: 'mceFullDocumentProperties'
 	});
 
-	editor.addMenuItem('fullpage', {
+	console.log('fulldocument_enable_menu_item',editor.getParam('fulldocument_enable_menu_item'));
+
+	if ((value = editor.getParam('fulldocument_enable_menu_item'))) {
+	}
+
+	editor.addMenuItem('fulldocument', {
 		text: 'Document properties',
-		cmd: 'mceFullPageProperties',
+		cmd: 'mceFullDocumentProperties',
 		context: 'file'
 	});
 
