@@ -479,16 +479,15 @@ tinymce.PluginManager.add('fulldocument', function(editor) {
 		cmd: 'mceFullDocumentProperties'
 	});
 
-	console.log('fulldocument_enable_menu_item',editor.getParam('fulldocument_enable_menu_item'));
 
-	if ((value = editor.getParam('fulldocument_enable_menu_item'))) {
+	if ((value = editor.getParam('fulldocument_enable_menu_item')) && value || editor.getParam('fulldocument_enable_menu_item') === undefined) {
+		editor.addMenuItem('fulldocument', {
+			text: 'Document properties',
+			cmd: 'mceFullDocumentProperties',
+			context: 'file'
+		});
 	}
 
-	editor.addMenuItem('fulldocument', {
-		text: 'Document properties',
-		cmd: 'mceFullDocumentProperties',
-		context: 'file'
-	});
 
 	editor.on('BeforeSetContent', setContent);
 	editor.on('GetContent', getContent);
