@@ -14,6 +14,11 @@ tinymce.PluginManager.add('fulldocument', function(editor) {
 	var each = tinymce.each, Node = tinymce.html.Node;
 	var head, foot;
 
+	/**
+	 * @return void
+	 * Open the fulldocument popup, loadding fulldocument header fragments in the
+	 * proposed html form
+	 */
 	function showDialog() {
 		var data = htmlToData();
 
@@ -35,6 +40,9 @@ tinymce.PluginManager.add('fulldocument', function(editor) {
 		});
 	}
 
+	/**
+	 *
+	 */
 	function htmlToData() {
 		var headerFragment = parseHeader(), data = {}, elm, matches;
 
@@ -108,7 +116,7 @@ tinymce.PluginManager.add('fulldocument', function(editor) {
 			data.link_color = getAttr(elm, 'link');
 			data.active_color = getAttr(elm, 'alink');
 		}
-
+		console.log(data);
 		return data;
 	}
 
@@ -431,6 +439,11 @@ tinymce.PluginManager.add('fulldocument', function(editor) {
 		});
 	}
 
+	/**
+	 * @return String
+	 * String that begins by the doctype and finishing by the openning body tag,
+	 * including headers defined with the fulldocument popup or styles defined in html source
+	 */
 	function getDefaultHeader() {
 		var header = '', value, styles = '';
 
@@ -466,6 +479,17 @@ tinymce.PluginManager.add('fulldocument', function(editor) {
 		return header;
 	}
 
+	/**
+	 * @return void
+	 * on getContent event handler
+	 * if event and configuration permit, change the evt.content (body content only) by concatenation of
+	 * - the doctype
+	 * - the opening html tag
+	 * - a calculated header,
+	 * - the body openning tag
+	 * - the default body content (original evt.content)
+	 * - closing body and html tags
+	 */
 	function getContent(evt) {
 		if (!evt.selection && (!evt.source_view || !editor.getParam('fulldocument_hide_in_source_view'))) {
 			evt.content = tinymce.trim(head) + '\n' + tinymce.trim(evt.content) + '\n' + tinymce.trim(foot);
@@ -479,7 +503,6 @@ tinymce.PluginManager.add('fulldocument', function(editor) {
 		cmd: 'mceFullDocumentProperties'
 	});
 
-
 	if (editor.getParam('fulldocument_enable_menu_item',true)) {
 		editor.addMenuItem('fulldocument', {
 			text: 'Document properties',
@@ -490,5 +513,20 @@ tinymce.PluginManager.add('fulldocument', function(editor) {
 
 
 	editor.on('BeforeSetContent', setContent);
+	editor.on('BeforeSetContent', getContent);
 	editor.on('GetContent', getContent);
+
+
+	// editor.on('BeforeSetContent', function(evt){
+	// 	console.info('before set content');
+	// 	console.log(evt.content);
+	// });
+	// editor.on('GetContent', function(evt){
+	// 	console.info('get content');
+	// 	console.log(evt.content);
+	// });
+	// editor.on('SetContent', function(evt){
+	// 	console.info('set content');
+	// 	console.log(evt.content);
+	// });
 });
