@@ -513,7 +513,7 @@ tinymce.PluginManager.add('fulldocument', function(editor) {
 
 
 	editor.on('BeforeSetContent', setContent);
-	editor.on('BeforeSetContent', getContent);
+	// editor.on('BeforeSetContent', getContent);  // do not uncomment, this cause issues. Line To be removed soon.
 	editor.on('GetContent', getContent);
 
 
